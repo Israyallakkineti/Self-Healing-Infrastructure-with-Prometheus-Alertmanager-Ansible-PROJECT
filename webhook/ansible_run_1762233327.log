@@ -1,0 +1,22 @@
+
+PLAY [Remediate nginx service] *************************************************
+
+TASK [Try to restart system nginx service] *************************************
+[WARNING]: Host 'localhost' is using the discovered Python interpreter at '/usr/bin/python3.13', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/devel/reference_appendices/interpreter_discovery.html for more information.
+[ERROR]: Task failed: Module failed: Could not find the requested service nginx: host
+Origin: /ansible/restart-nginx.yml:6:7
+
+4   gather_facts: false
+5   tasks:
+6     - name: Try to restart system nginx service
+        ^ column 7
+
+fatal: [localhost]: FAILED! => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3.13"}, "changed": false, "msg": "Could not find the requested service nginx: host"}
+...ignoring
+
+TASK [If system nginx service restart failed, try docker restart nginx-demo] ***
+ok: [localhost]
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1   
+

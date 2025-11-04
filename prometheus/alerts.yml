@@ -1,0 +1,12 @@
+groups:
+  - name: service_alerts
+    rules:
+      - alert: NginxDown
+        expr: probe_success == 0
+        for: 10s
+        labels:
+          severity: critical
+        annotations:
+          summary: "NGINX service is down"
+          description: "The NGINX demo container is not responding to HTTP requests"
+

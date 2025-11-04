@@ -1,0 +1,19 @@
+---
+- name: Remediate nginx service
+  hosts: webservers
+  gather_facts: false
+  tasks:
+    - name: Try to restart system nginx service
+      become: yes
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+      ignore_errors: yes
+      register: service_result
+
+    - name: If system nginx service restart failed, try docker restart nginx-demo
+      ansible.builtin.shell: docker ps -a --format '{{"{{.Names}}"}}' | grep -w nginx-demo && docker restart nginx-demo || echo "nginx-demo not found"
+      register: docker_restart
+      changed_when: "'Restarted' in docker_restart.stdout or 'docker restart' in docker_restart.stdout or ('nginx-demo' in docker_restart.stdout and 'not found' not in docker_restart.stdout)"
+      failed_when: false
+
